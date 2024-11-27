@@ -1,11 +1,9 @@
 const express = require('express');
-const cors = require('cors');
 require('dotenv').config();
-const db = require('./models/my_db'); // Import the MySQL connection
+const db = require('./models/my_db'); 
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 
 // Routes
 app.use('/auth', require('./routes/auth'));

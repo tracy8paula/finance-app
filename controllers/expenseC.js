@@ -1,4 +1,3 @@
-// controllers/expenseController.js
 const db = require('../models/my_db');
 
 // Add a new expense

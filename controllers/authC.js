@@ -1,6 +1,5 @@
 const db = require('../models/my_db');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 exports.registerUser = (req, res) => {
     const { username, email, password } = req.body;
@@ -36,5 +35,6 @@ exports.loginUser = (req, res) => {
         if (err) {
             return res.status(500).json({ error: 'Database error: ' + err.message });
         }
+        res.json(results);
     });
 };

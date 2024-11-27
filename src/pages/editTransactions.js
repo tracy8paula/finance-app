@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogActions, DialogContent, TextField, Button } from '@mui/material';
 
-const AddTransaction = ({ onClose, onAdd }) => {
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
+const EditTransaction = ({ transaction, onClose, onEdit }) => {
+  const [name, setName] = useState(transaction.name);
+  const [amount, setAmount] = useState(transaction.amount);
 
   const handleSubmit = () => {
-    const newTransaction = { name, amount: parseFloat(amount) };
-    onAdd(newTransaction);
+    const updatedTransaction = { ...transaction, name, amount };
+    onEdit(updatedTransaction);
     onClose();
   };
 
@@ -30,10 +30,10 @@ const AddTransaction = ({ onClose, onAdd }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">Cancel</Button>
-        <Button onClick={handleSubmit} color="primary">Add</Button>
+        <Button onClick={handleSubmit} color="primary">Save</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default AddTransaction;
+export default EditTransaction;
