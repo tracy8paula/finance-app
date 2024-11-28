@@ -26,7 +26,6 @@ const TransactionList = () => {
           <TableRow>
             <TableCell>Description</TableCell>
             <TableCell>Amount</TableCell>
-            <TableCell>Type</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -34,7 +33,6 @@ const TransactionList = () => {
             <TableRow key={transaction.id}>
               <TableCell>{transaction.description}</TableCell>
               <TableCell>{transaction.amount}</TableCell>
-              <TableCell>{transaction.type}</TableCell>
             </TableRow>
           ))}
         </TableBody>

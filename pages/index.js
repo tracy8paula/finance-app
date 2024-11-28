@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../src/components/navbar';
 import { Container, Typography, Box, Button } from '@mui/material';
-import Dashboard from '../src/components/dashboard';
-import AddTransaction from '../src/pages/addTransaction';
-import EditTransaction from '../src/pages/editTransactions';
+import Dashboard from './dashboard';
+import AddTransaction from '../src/components/addTransaction';
+import EditTransaction from '../src/components/editTransactions';
 import TransactionForm from '../src/components/transactionForm';
 import TransactionList from '../src/components/transactionList';
 import { getTransactions, createTransaction } from '../src/api/financeApi';
