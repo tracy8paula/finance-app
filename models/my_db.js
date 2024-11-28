@@ -1,4 +1,4 @@
-// models/my_db.js
+import { db as firebaseDb, collection, getDocs, addDoc } from './firebase'; 
 const mysql = require('mysql2');
 
 // Create the database connection
@@ -20,4 +20,4 @@ db.connect((err) => {
     }
 });
 
-module.exports = db;
+export { db, firebaseDb, collection, getDocs, addDoc };

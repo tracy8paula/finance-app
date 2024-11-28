@@ -1,13 +1,11 @@
 const express = require('express');
-const { addExpense, getExpenses } = require('../controllers/expenseC');
-const authenticate = require('../middlewareauth');
-
+const expenseController = require('../controllers/expenseC');
 const router = express.Router();
 
 // add a new expense
-router.post('/add', authenticate, addExpense);
+router.post('/expenses', expenseController.createExpense);
 
 //get all expenses
-router.get('/all', authenticate, getExpenses);
+router.get('/expenses/:userId', expenseController.getUserExpenses);
 
 module.exports = router;

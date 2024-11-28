@@ -1,34 +1,48 @@
-const db = require('../models/my_db');
+const expenseModel = require('../models/expense'); // Importing expense model
+const incomeModel = require('../models/income');   // Importing income model
 
-exports.getReport = (req, res) => {
-    const { userId } = req.user;
-    const { startDate, endDate } = req.query;
+// Generate a summary report
+exports.generateReport = async (req, res) => {
+  const { userId } = req.params;
 
-    const expenseQuery = `
-        SELECT category, SUM(amount) AS total
-        FROM expenses
-        WHERE userId = ? AND date BETWEEN ? AND ?
-        GROUP BY category
-    `;
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID is required' });
+  }
 
-    const incomeQuery = `
-        SELECT source, SUM(amount) AS total
-        FROM income
-        WHERE userId = ? AND date BETWEEN ? AND ?
-        GROUP BY source
-    `;
+  try {
+    // Fetch all incomes for the user
+    const incomes = await new Promise((resolve, reject) =>
+      incomeModel.getIncomeByUser(userId, (err, results) => {
+        if (err) reject(err);
+        else resolve(results);
+      })
+    );
 
-    db.query(expenseQuery, [userId, startDate, endDate], (err, expenseResults) => {
-        if (err) {
-            return res.status(500).json({ error: 'Failed to fetch expenses: ' + err.message });
-        }
+    // Fetch all expenses for the user
+    const expenses = await new Promise((resolve, reject) =>
+      expenseModel.getExpensesByUser(userId, (err, results) => {
+        if (err) reject(err);
+        else resolve(results);
+      })
+    );
 
-        db.query(incomeQuery, [userId, startDate, endDate], (err, incomeResults) => {
-            if (err) {
-                return res.status(500).json({ error: 'Failed to fetch income: ' + err.message });
-            }
+    // Calculate total income and expenses
+    const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
+    const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
 
-            res.json({ expenses: expenseResults, income: incomeResults });
-        });
+    // Calculate balance
+    const balance = totalIncome - totalExpenses;
+
+    // Respond with the report
+    res.status(200).json({
+      userId,
+      totalIncome,
+      totalExpenses,
+      balance,
+      incomes,
+      expenses,
     });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to generate report', details: error });
+  }
 };

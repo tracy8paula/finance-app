@@ -1,5 +1,5 @@
 // Direct API endpoints for interacting with internet services
-const BASE_URL = 'https://example-finance-api.com'; // Replace with a real API URL
+const BASE_URL = 'http://localhost:5000/api'; 
 
 // Fetch transactions from an external API
 export const getTransactions = async () => {

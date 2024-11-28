@@ -1,12 +1,13 @@
 const express = require('express');
-const { addBudget, getBudgets } = require('../controllers/budgetC');
-const authenticate = require('../middlewareauth');
+const budgetController = require('../controllers/budgetC');
 
 const router = express.Router();
 
 // adding budgets
-router.post('/add', authenticate, addBudget);
+router.post('/budgets', budgetController.createBudget);
 // getting all budgets
-router.get('/all', authenticate, getBudgets);
+router.get('/budgets/:userId', budgetController.getUserBudgets);
+// Route to delete a budget
+router.delete('/budgets/:budgetId', budgetController.deleteBudget);
 
 module.exports = router;

@@ -22,7 +22,19 @@ const getIncomeByUser = (userId, callback) => {
     });
 };
 
+// Delete an income
+const deleteIncome = (incomeId, callback) => {
+    const query = 'DELETE FROM incomes WHERE id = ?';
+    db.query(query, [incomeId], (err, result) => {
+        if (err) {
+            return callback(err, null);
+        }
+        callback(null, result);
+    });
+};
+
 module.exports = {
     addIncome,
     getIncomeByUser,
+    deleteIncome
 };

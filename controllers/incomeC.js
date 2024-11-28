@@ -1,27 +1,49 @@
-const db = require('../models/my_db');
+const {addIncome, getIncomesByUser, deleteIncome} = require('../models/income');
 
-exports.addIncome = (req, res) => {
-    const { userId, source, amount, date } = req.body;
+// Add a new income
+exports.createIncome = (req, res) => {
+  const { userId, source, amount, date } = req.body;
 
-    const query = `INSERT INTO income (userId, source, amount, date) VALUES (?, ?, ?, ?)`;
-
-    db.query(query, [userId, source, amount, date], (err, result) => {
-        if (err) {
-            return res.status(500).json({ error: 'Failed to add income: ' + err.message });
-        }
-        res.status(201).json({ message: 'Income added successfully.', id: result.insertId });
-    });
+  if (!userId || !source || !amount || !date) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+  
+  addIncome(userId, source, amount, date, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to add income' });
+    }
+    res.status(201).json({ message: 'Income added successfully', data: result });
+  });
 };
 
-exports.getIncome = (req, res) => {
-    const { userId } = req.user;
+// Get all incomes for a user
+exports.getUserIncomes = (req, res) => {
+  const { userId } = req.params;
 
-    const query = `SELECT * FROM income WHERE userId = ?`;
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID is required' });
+  }
 
-    db.query(query, [userId], (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Failed to fetch income: ' + err.message });
-        }
-        res.json(results);
-    });
+  getIncomesByUser(userId, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to retrieve incomes' });
+    }
+    res.status(200).json({ data: results });
+  });
+};
+
+// Delete an income
+exports.deleteIncome = (req, res) => {
+  const { incomeId } = req.params;
+
+  if (!incomeId) {
+    return res.status(400).json({ error: 'Income ID is required' });
+  }
+
+  deleteIncome(incomeId, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to delete income' });
+    }
+    res.status(200).json({ message: 'Income deleted successfully', data: result });
+  });
 };

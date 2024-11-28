@@ -24,5 +24,5 @@ const getExpensesByUser = (userId, callback) => {
 
 module.exports = {
     addExpense,
-    getExpensesByUser,
+    getExpensesByUser
 };

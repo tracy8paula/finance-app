@@ -1,27 +1,49 @@
-const db = require('../models/my_db');
+const {createBudget, getBudgetsByUser, deleteBudget} = require('../models/budget');
 
-exports.addBudget = (req, res) => {
-    const { userId, category, limit, startDate, endDate } = req.body;
+// Add a new budget
+exports.createBudget = (req, res) => {
+  const { userId, name, totalAmount } = req.body;
 
-    const query = `INSERT INTO budgets (userId, category, limit, startDate, endDate) VALUES (?, ?, ?, ?, ?)`;
+  if (!userId || !name || !totalAmount) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
 
-    db.query(query, [userId, category, limit, startDate, endDate], (err, result) => {
-        if (err) {
-            return res.status(500).json({ error: 'Failed to add budget: ' + err.message });
-        }
-        res.status(201).json({ message: 'Budget added successfully.', id: result.insertId });
-    });
+  createBudget(userId, name, totalAmount, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to add budget' });
+    }
+    res.status(201).json({ message: 'Budget added successfully', data: result });
+  });
 };
 
-exports.getBudgets = (req, res) => {
-    const { userId } = req.user;
+// Get all budgets for a user
+exports.getUserBudgets = (req, res) => {
+  const { userId } = req.params;
 
-    const query = `SELECT * FROM budgets WHERE userId = ?`;
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID is required' });
+  }
 
-    db.query(query, [userId], (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Failed to fetch budgets: ' + err.message });
-        }
-        res.json(results);
-    });
+  getBudgetsByUser(userId, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to retrieve budgets' });
+    }
+    res.status(200).json({ data: results });
+  });
+};
+
+// Delete a budget
+exports.deleteBudget = (req, res) => {
+  const { budgetId } = req.params;
+
+  if (!budgetId) {
+    return res.status(400).json({ error: 'Budget ID is required' });
+  }
+
+  deleteBudget(budgetId, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to delete budget' });
+    }
+    res.status(200).json({ message: 'Budget deleted successfully' });
+  });
 };

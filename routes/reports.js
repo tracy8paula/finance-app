@@ -1,10 +1,9 @@
 const express = require('express');
-const { getReport } = require('../controllers/reportC');
-const authenticate = require('../middlewareauth');
+const reportController = require('../controllers/reportC');
 
 const router = express.Router();
 
-// Route for generating financial reports
-router.get('/generate', authenticate, getReport);
+// Route to generate a report for a user
+router.get('/reports/:userId', reportController.generateReport);
 
 module.exports = router;

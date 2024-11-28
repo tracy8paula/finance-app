@@ -22,7 +22,19 @@ const getBudgetsByUser = (userId, callback) => {
     });
 };
 
+// Delete a budget
+const deleteBudget = (budgetId, callback) => {
+    const query = 'DELETE FROM budgets WHERE id = ?';
+    db.query(query, [budgetId], (err, result) => {
+        if (err) {
+            return callback(err, null);
+        }
+        callback(null, result);
+    });
+};
+
 module.exports = {
     createBudget,
     getBudgetsByUser,
+    deleteBudget
 };
