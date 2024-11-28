@@ -1,11 +1,12 @@
-const BASE_URL = 'http://localhost:3000/api'; 
+const BASE_URL = 'http://localhost:5000'; 
 
 // Generic function for GET requests
 export const fetchData = async (endpoint) => {
   try {
     const response = await fetch(`${BASE_URL}/${endpoint}`);
     if (!response.ok) {
-      throw new Error(`Error fetching ${endpoint}: ${response.statusText}`);
+      throw Error;
+      console.Error(`Error fetching ${endpoint}: ${response.statusText}`);
     }
     return await response.json();
   } catch (error) {

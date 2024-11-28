@@ -12,7 +12,7 @@ const SignUp = () => {
 
   const handleSubmit = () => {
     console.log('Sign-up form submitted:', form);
-    router('/login');
+    router.push('/login');
   };
 
   return (
@@ -31,6 +31,7 @@ const SignUp = () => {
         <TextField
           fullWidth
           margin="normal"
+          sx={{backgroundColor: '#003366', color: '#f5f5dc'}}
           label="Email"
           variant="outlined"
           name="email"
@@ -40,6 +41,7 @@ const SignUp = () => {
         <TextField
           fullWidth
           margin="normal"
+          sx={{backgroundColor: '#003366', color: '#f5f5dc'}}
           label="Password"
           type="password"
           variant="outlined"

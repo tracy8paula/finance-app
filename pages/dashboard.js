@@ -1,16 +1,23 @@
-import React from 'react';
-import { Grid2, Paper, Typography, Box } from '@mui/material';
 import { useRouter } from 'next/router';
+import { Grid2, Paper, Typography, Box } from '@mui/material';
 
-const Dashboard = () => {
+const sections = [
+  { name: 'Incomes', path: '/incomes' },
+  { name: 'Expenses', path: '/expenses' },
+  { name: 'Reports', path: '/reports' },
+  { name: 'Account Details', path: '/AccountDetails' },
+];
+
+export default function Dashboard() {
   const router = useRouter();
 
-  const sections = [
-    { name: 'Incomes', path: '/incomes' },
-    { name: 'Expenses', path: '/expenses' },
-    { name: 'Reports', path: '/reports' },
-    { name: 'Account Details', path: '/account-details' },
-  ];
+  const handleNavigation = (path) => {
+    if (path) {
+      router.push(path); // Navigate to the route
+    } else {
+      console.error('Invalid path:', path); // Log invalid path for debugging
+    }
+  };
 
   return (
     <Box
@@ -28,7 +35,7 @@ const Dashboard = () => {
         {sections.map((section) => (
           <Grid2 item xs={12} sm={6} md={3} key={section.name}>
             <Paper
-              onClick={() => router(section.path)}
+              onClick={() => handleNavigation(section.path)} // Safely handle navigation
               elevation={3}
               sx={{
                 padding: '2rem',
@@ -46,6 +53,4 @@ const Dashboard = () => {
       </Grid2>
     </Box>
   );
-};
-
-export default Dashboard;
+}

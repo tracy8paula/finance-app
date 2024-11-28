@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleSubmit = () => {
     console.log('Login form submitted:', form);
-    router('/dashboard');
+    router.push('/dashboard');
   };
 
   return (

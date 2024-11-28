@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Typography, Paper, Box } from '@mui/material';
+import Navbar from '@/components/navbar';
 
 const Incomes = () => {
   return (
@@ -11,6 +12,7 @@ const Incomes = () => {
         padding: '2rem',
       }}
     >
+      <Navbar></Navbar>
       <Typography variant="h4" align="center" gutterBottom>
         Incomes
       </Typography>
