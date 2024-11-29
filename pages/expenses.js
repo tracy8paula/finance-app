@@ -5,7 +5,7 @@ import EditTransaction from '../src/components/editTransactions';
 import TransactionForm from '../src/components/transactionForm';
 import TransactionList from '../src/components/transactionList';
 import { getTransactions, createTransaction } from '../src/api/financeApi';
-import Navbar from '@/components/navbar';
+import {Navbar} from '../src/components/navbar';
 
 const Expenses = () => {
   const [transactions, setTransactions] = useState([]);
@@ -31,7 +31,7 @@ const Expenses = () => {
     try {
       const newTransaction = await createTransaction(transaction);
       setTransactions((prev) => [...prev, newTransaction]);
-      setIsAddTransactionOpen(false); // Close the AddTransaction form after success
+      setIsAddTransactionOpen(false);
     } catch (error) {
       console.error('Error adding transaction:', error);
     }

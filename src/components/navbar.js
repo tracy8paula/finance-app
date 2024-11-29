@@ -1,17 +1,29 @@
 import React from 'react';
+import Link from 'next/link';
 import { AppBar, Toolbar, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
     <AppBar position="static" style={{ backgroundColor: '#003366' }}>
       <Toolbar>
-        <Button color="inherit" component={Link} to="/">Home</Button>
-        <Button color="inherit" component={Link} to="/dashboard">Dashboard</Button>
-        <Button color="inherit" component={Link} to="/incomes">Incomes</Button>
-        <Button color="inherit" component={Link} to="/expenses">Expenses</Button>
-        <Button color="inherit" component={Link} to="/reports">Reports</Button>
-        <Button color="inherit" component={Link} to="/account-details">Account Details</Button>
+        <Button color="inherit">
+          <Link href="/">Home</Link>
+        </Button>
+        <Button color="inherit">
+          <Link href="/dashboard">Dashboard</Link>
+        </Button>
+        <Button color="inherit">
+          <Link href="/incomes">Incomes</Link>
+        </Button>
+        <Button color="inherit">
+          <Link href="/expenses">Expenses</Link>
+        </Button>
+        <Button color="inherit">
+          <Link href="/reports">Reports</Link>
+        </Button>
+        <Button color="inherit">
+          <Link href="/account-details">Account Details</Link>
+        </Button>
       </Toolbar>
     </AppBar>
   );

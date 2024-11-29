@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Typography, Paper, Box } from '@mui/material';
-import Navbar from '@/components/navbar';
+import {Navbar} from '../src/components/navbar';
+
 const AccountDetails = () => {
   return (
     <Container

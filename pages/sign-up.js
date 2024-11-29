@@ -1,18 +1,40 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
+import { Container } from '@mui/material';
 import { useRouter } from 'next/router';
+import AuthForm from '../src/components/authForm';
 
 const SignUp = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const router = useRouter();
 
+  // Handle input changes
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    console.log('Sign-up form submitted:', form);
-    router.push('/login');
+  // Handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form), // Pass form data to API
+      });
+
+      if (response.ok) {
+        console.log('Sign-up successful:', form);
+        router.push('/login'); // Redirect to login page
+      } else {
+        const error = await response.json();
+        console.error('Sign-up failed:', error.message || 'Unknown error');
+      }
+    } catch (error) {
+      console.error('Sign-up error:', error);
+    }
   };
 
   return (
@@ -24,40 +46,13 @@ const SignUp = () => {
         padding: '2rem',
       }}
     >
-      <Typography variant="h4" align="center" gutterBottom>
-        Sign Up
-      </Typography>
-      <Box sx={{ maxWidth: 400, margin: 'auto' }}>
-        <TextField
-          fullWidth
-          margin="normal"
-          sx={{backgroundColor: '#003366', color: '#f5f5dc'}}
-          label="Email"
-          variant="outlined"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          sx={{backgroundColor: '#003366', color: '#f5f5dc'}}
-          label="Password"
-          type="password"
-          variant="outlined"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-        />
-        <Button
-          fullWidth
-          variant="contained"
-          sx={{ marginTop: '1rem', backgroundColor: '#003366', color: '#f5f5dc' }}
-          onClick={handleSubmit}
-        >
-          Sign Up
-        </Button>
-      </Box>
+      <AuthForm
+        form={form}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        title="Sign Up"
+        buttonText="Sign Up"
+      />
     </Container>
   );
 };

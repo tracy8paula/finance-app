@@ -1,18 +1,45 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
+import { Container } from '@mui/material';
 import { useRouter } from 'next/router';
+import AuthForm from '../src/components/authForm'; 
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
+  const [error, setError] = useState(''); // For error messages
   const router = useRouter();
 
+  // Handle input changes
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    console.log('Login form submitted:', form);
-    router.push('/dashboard');
+  // Handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Login successful:', data);
+
+        // Redirect to dashboard or another page
+        router.push('/dashboard');
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Login failed');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('An unexpected error occurred. Please try again later.');
+    }
   };
 
   return (
@@ -24,38 +51,14 @@ const Login = () => {
         padding: '2rem',
       }}
     >
-      <Typography variant="h4" align="center" gutterBottom>
-        Log In
-      </Typography>
-      <Box sx={{ maxWidth: 400, margin: 'auto' }}>
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Email"
-          variant="outlined"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          label="Password"
-          type="password"
-          variant="outlined"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-        />
-        <Button
-          fullWidth
-          variant="contained"
-          sx={{ marginTop: '1rem', backgroundColor: '#003366', color: '#f5f5dc' }}
-          onClick={handleSubmit}
-        >
-          Log In
-        </Button>
-      </Box>
+      {error && <p style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>} {/* Display error */}
+      <AuthForm
+        form={form}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        title="Log In"
+        buttonText="Log In"
+      />
     </Container>
   );
 };

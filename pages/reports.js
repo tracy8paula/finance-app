@@ -1,32 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Container, Typography } from '@mui/material';
+import dynamic from 'next/dynamic';
+
+const Chart = dynamic(() => import('react-chartjs-2'), { ssr: false });
+
+
+Chart.register(ArcElement, Tooltip, Legend);
 
 const Reports = () => {
-  const [data, setData] = useState({ incomes: 0, expenses: 0 });
-
-  const generateReport = async () => {
-    const response = await fetch('/reports/:userId');
-    const reportData = await response.json();
-    setData(reportData);
-  };
-
-  const chartData = {
+  const data = {
     labels: ['Incomes', 'Expenses'],
     datasets: [
       {
-        data: [data.incomes, data.expenses],
+        data: [500, 300],
         backgroundColor: ['#36A2EB', '#FF6384'],
       },
     ],
   };
 
   return (
-    <div>
-      <h1>Financial Reports</h1>
-      <Button onClick={generateReport}>Generate Financial Report</Button>
-      <Pie data={chartData} />
-    </div>
+    <Container
+      sx={{
+        backgroundColor: '#001f3f',
+        color: '#f5f5dc',
+        minHeight: '100vh',
+        padding: '2rem',
+      }}
+    >
+      <Typography variant="h4" align="center" gutterBottom>
+        Weekly Financial Report
+      </Typography>
+      <Pie data={data} />
+    </Container>
   );
 };
 
