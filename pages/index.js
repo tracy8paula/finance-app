@@ -32,7 +32,7 @@ export default function LandingPage() {
           variant="outlined"
           align= 'center'
           sx={{ color: '#001f3f', borderColor: '#001f3f', margin: '1rem' }}
-          onClick={() => router.push('/login')} 
+          onClick={() => router.push('/Login')} 
         >
           Login
         </Button>

@@ -17,7 +17,7 @@ const SignUp = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/signup', {
+      const response = await fetch('/sign-up', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ const SignUp = () => {
 
       if (response.ok) {
         console.log('Sign-up successful:', form);
-        router.push('/login'); // Redirect to login page
+        router.push('/Login'); // Redirect to login page
       } else {
         const error = await response.json();
         console.error('Sign-up failed:', error.message || 'Unknown error');

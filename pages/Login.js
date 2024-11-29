@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container } from '@mui/material';
 import { useRouter } from 'next/router';
 import AuthForm from '../src/components/authForm'; 
+import { loginUser } from '@/api/financeApi';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -18,20 +19,21 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('/login', {
+      const response = await fetch('/Login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+         
         body: JSON.stringify(form),
       });
 
       if (response.ok) {
         const data = await response.json();
+        <loginUser/>
         console.log('Login successful:', data);
-
-        // Redirect to dashboard or another page
-        router.push('/dashboard');
+        router.push(dashboard.js);
+        
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Login failed');
@@ -43,6 +45,7 @@ const Login = () => {
   };
 
   return (
+    
     <Container
       sx={{
         backgroundColor: '#001f3f',
