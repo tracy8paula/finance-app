@@ -1,68 +1,32 @@
-import React, { useState } from 'react';
-import { Container, Typography, Paper, Box, Button } from '@mui/material';
-import Navbar from '@/components/navbar';
-import TransactionList from '@/components/transactionList'; 
-import { getTransactions } from '@/api/financeApi'; 
+import React, { useState, useEffect } from 'react';
+import { Button } from '@mui/material';
+import { Pie } from 'react-chartjs-2';
 
 const Reports = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [showTransactions, setShowTransactions] = useState(false);
+  const [data, setData] = useState({ incomes: 0, expenses: 0 });
 
-  // Fetch transactions when button is clicked
-  const handleRequestList = async () => {
-    try {
-      const data = await getTransactions();
-      setTransactions(data);
-      setShowTransactions(true); // Show the transaction list
-    } catch (error) {
-      console.error('Error fetching transactions:', error);
-    }
+  const generateReport = async () => {
+    const response = await fetch('/reports/:userId');
+    const reportData = await response.json();
+    setData(reportData);
+  };
+
+  const chartData = {
+    labels: ['Incomes', 'Expenses'],
+    datasets: [
+      {
+        data: [data.incomes, data.expenses],
+        backgroundColor: ['#36A2EB', '#FF6384'],
+      },
+    ],
   };
 
   return (
-    <Container
-      sx={{
-        backgroundColor: '#001f3f',
-        color: '#f5f5dc',
-        minHeight: '100vh',
-        padding: '2rem',
-      }}
-    >
-      <Navbar />
-      <Typography variant="h4" align="center" gutterBottom>
-        Financial Reports
-      </Typography>
-      <Box>
-        <Paper sx={{ padding: '1rem', backgroundColor: '#003366', marginBottom: '1rem' }}>
-          <Typography variant="body1">
-            Here you can view financial reports with graphs and periodic charts.
-          </Typography>
-        </Paper>
-      </Box>
-
-      {/* Request List Button */}
-      <Box display="flex" justifyContent="center" mb={2}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleRequestList}
-          sx={{
-            backgroundColor: '#003366',
-            color: '#f5f5dc',
-            '&:hover': { backgroundColor: '#005092' },
-          }}
-        >
-          Request List
-        </Button>
-      </Box>
-
-      {/* Display Transaction List */}
-      {showTransactions && (
-        <Box>
-          <TransactionList transactions={transactions} />
-        </Box>
-      )}
-    </Container>
+    <div>
+      <h1>Financial Reports</h1>
+      <Button onClick={generateReport}>Generate Financial Report</Button>
+      <Pie data={chartData} />
+    </div>
   );
 };
 
