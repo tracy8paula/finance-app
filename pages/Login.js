@@ -22,8 +22,7 @@ const Login = () => {
       const response = await loginUser(form);  // Correct function call to 'Login' endpoint
 
       if (response.message === 'User logged in') {
-        console.log('Login successful:', response);
-        router.push('/dashboard');  // Redirect after successful login
+        console.log('Login successful:', response); 
       } else {
         setError('Login failed: ' + response.message);
       }
@@ -31,6 +30,8 @@ const Login = () => {
       console.error('Login error:', err);
       setError('An unexpected error occurred. Please try again later.');
     }
+    
+    router.push('/dashboard'); 
   };
 
   return (

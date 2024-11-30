@@ -1,89 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Paper, Box, Button } from '@mui/material';
-import AddTransaction from '../src/components/addTransaction';
-import EditTransaction from '../src/components/editTransactions';
 import TransactionForm from '../src/components/transactionForm';
-import TransactionList from '../src/components/transactionList';
 import { getTransactions, createTransaction } from '../src/api/financeApi';
-import {Navbar} from '../src/components/navbar';
+import  Navbar from '../src/components/navbar';
 
 const Expenses = () => {
   const [transactions, setTransactions] = useState([]);
-  const [isAddTransactionOpen, setIsAddTransactionOpen] = useState(false);
-  const [selectedTransaction, setSelectedTransaction] = useState(null);
-
-  // Fetch transactions on page load
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const data = await getTransactions();
-        setTransactions(data);
-      } catch (error) {
-        console.error('Error fetching transactions:', error);
-      }
-    };
-
-    fetchTransactions();
-  }, []);
+  const [isListRequested, setIsListRequested] = useState(false);
 
   // Add new transaction
   const handleAddTransaction = async (transaction) => {
     try {
       const newTransaction = await createTransaction(transaction);
-      setTransactions((prev) => [...prev, newTransaction]);
-      setIsAddTransactionOpen(false);
+      console.log('Transaction added successfully:', newTransaction);
     } catch (error) {
       console.error('Error adding transaction:', error);
     }
   };
 
-  // Edit transaction logic
-  const handleEditTransaction = async (updatedTransaction) => {
+  // Fetch transaction list
+  const handleRequestList = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/transactions/${updatedTransaction.id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedTransaction),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to update transaction');
-      }
-
-      const updated = await response.json();
-      setTransactions((prev) =>
-        prev.map((transaction) =>
-          transaction.id === updatedTransaction.id ? updated : transaction
-        )
-      );
-      setSelectedTransaction(null); // Close the EditTransaction form after success
+      const data = await getTransactions();
+      setTransactions(data);
+      setIsListRequested(true);
     } catch (error) {
-      console.error('Error updating transaction:', error);
-    }
-  };
-
-  // Delete transaction logic
-  const handleDeleteTransaction = async (id) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/transactions/${id}`,
-        { method: 'DELETE' }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to delete transaction');
-      }
-
-      setTransactions((prev) =>
-        prev.filter((transaction) => transaction.id !== id)
-      );
-    } catch (error) {
-      console.error('Error deleting transaction:', error);
+      console.error('Error fetching transactions:', error);
     }
   };
 
@@ -94,49 +36,93 @@ const Expenses = () => {
         color: '#f5f5dc',
         minHeight: '100vh',
         padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
       }}
     >
-      <Navbar></Navbar>
+      <Navbar
+        sx={{
+          '& a': {
+            color: '#f5f5dc',
+            textDecoration: 'none',
+          },
+          '& a:hover': {
+            backgroundColor: '#003366',
+            color: '#ffffff',
+            borderRadius: '5px',
+            padding: '5px',
+          },
+        }}
+      />
       <Typography variant="h4" align="center" gutterBottom>
         Expenses
       </Typography>
-      <Box>
-        <Paper sx={{ padding: '1rem', backgroundColor: '#003366', marginBottom: '1rem' }}>
-          <Typography variant="body1">Detailed expenses data goes here.</Typography>
-        </Paper>
-      </Box>
 
-      {/* Transaction Form */}
-      <TransactionForm />
-
-      {/* Transaction List */}
-      <TransactionList transactions={transactions} onEdit={setSelectedTransaction} onDelete={handleDeleteTransaction} />
-
-      <Box display="flex" justifyContent="center" mb={2}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setIsAddTransactionOpen(true)}
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: '600px',
+          padding: '1rem',
+          margin: '1rem auto',
+        }}
+      >
+        <Paper
+          sx={{
+            padding: '1rem',
+            backgroundColor: '#003366',
+            color: '#f5f5dc',
+            marginBottom: '1rem',
+          }}
         >
-          Add Transaction
-        </Button>
+          <Typography variant="body1" align="center">
+            Record your expenses by filling out the transaction form below.
+          </Typography>
+        </Paper>
+
+        {/* Transaction Form */}
+        <TransactionForm onSubmit={handleAddTransaction} />
+
+        {/* Request List Button */}
+        <Box display="flex" justifyContent="center" mt={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleRequestList}
+          >
+            Request List
+          </Button>
+        </Box>
       </Box>
 
-      {/* Add Transaction Modal */}
-      {isAddTransactionOpen && (
-        <AddTransaction
-          onClose={() => setIsAddTransactionOpen(false)}
-          onAdd={handleAddTransaction}
-        />
-      )}
-
-      {/* Edit Transaction Modal */}
-      {selectedTransaction && (
-        <EditTransaction
-          transaction={selectedTransaction}
-          onClose={() => setSelectedTransaction(null)}
-          onEdit={handleEditTransaction}
-        />
+      {/* Display Transactions if Requested */}
+      {isListRequested && (
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '600px',
+            margin: '1rem auto',
+            backgroundColor: '#003366',
+            padding: '1rem',
+            borderRadius: '5px',
+          }}
+        >
+          <Typography variant="h5" gutterBottom>
+            Transactions List
+          </Typography>
+          {transactions.length > 0 ? (
+            <ul>
+              {transactions.map((transaction) => (
+                <li key={transaction.id}>
+                  {transaction.description} - ${transaction.amount}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <Typography>No transactions found.</Typography>
+          )}
+        </Box>
       )}
     </Container>
   );

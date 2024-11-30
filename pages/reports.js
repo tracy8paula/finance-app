@@ -3,7 +3,9 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Container, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
+import Navbar from '../src/components/navbar';
 
+// Dynamically import the Pie chart from react-chartjs-2
 const Chart = dynamic(() => import('react-chartjs-2'), { ssr: false });
 
 // Register chart elements
@@ -28,7 +30,7 @@ const Reports = () => {
           datasets: [
             {
               label: 'Expenses',
-              data: data.values || [300, 500, 200], // Default mock values
+              data: data.values || [],
               backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
             },
           ],
@@ -36,13 +38,14 @@ const Reports = () => {
       } catch (err) {
         console.error('Error fetching reports:', err);
         setError('Failed to load data. Please try again later.');
-        // Fallback mock data
+
+        // Fallback mock data for testing purposes
         setChartData({
           labels: ['Mock Category 1', 'Mock Category 2', 'Mock Category 3'],
           datasets: [
             {
               label: 'Expenses',
-              data: [100, 200, 300],
+              data: [10, 20, 30], // Mock data
               backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
             },
           ],
@@ -67,7 +70,8 @@ const Reports = () => {
           justifyContent: 'center',
         }}
       >
-        <Typography variant="h4" color="error">
+        <Navbar /> {/* Add Navbar here */}
+        <Typography variant="h4" color="error" align="center">
           {error}
         </Typography>
       </Container>
@@ -83,6 +87,7 @@ const Reports = () => {
         padding: '2rem',
       }}
     >
+      <Navbar /> {/* Add Navbar here */}
       <Typography variant="h4" align="center" gutterBottom>
         Weekly Financial Report
       </Typography>

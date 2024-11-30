@@ -6,7 +6,7 @@ import Dashboard from '../pages/dashboard';
 import Incomes from '../pages/incomes';
 import Expenses from '../pages/expenses';
 import Reports from '../pages/reports';
-import AccountDetails from '../pages/AccountDetails';
+import AccountDetails from './account-details';
 import Login from '../pages/login';
 import SignUp from '../pages/sign-up';
 

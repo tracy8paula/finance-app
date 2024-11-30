@@ -3,14 +3,14 @@ const BASE_URL = 'http://localhost:5000';
 // Generic function for GET requests
 export const fetchData = async (endpoint) => {
   try {
-    const response = await fetch(`${BASE_URL}/${endpoint}`);
+    const response = await fetchData(`${BASE_URL}/${endpoint}`);
     if (!response.ok) {
-      throw Error;
-      console.Error(`Error fetching ${endpoint}: ${response.statusText}`);
+      console.Error(`Error fetching ${endpoint}: ${response.statusText}`)
+      throw new Error(response.statusText);
     }
     return await response.json();
   } catch (error) {
-    console.error(`Error fetching ${endpoint}:`, error);
+    console.error (`Error fetching ${endpoint}`, error);
     throw error;
   }
 };
@@ -18,12 +18,12 @@ export const fetchData = async (endpoint) => {
 // Generic function for POST requests
 export const postData = async (endpoint, data) => {
   try {
-    const response = await fetch(`${BASE_URL}/${endpoint}`, {
+    const response = fetchData(`${BASE_URL}/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      body: JSON.stringify(data)
-      }
+      },
+        body: JSON.stringify(data),
     });
     
     const responseBody = await response.json();

@@ -36,14 +36,6 @@ const TransactionForm = () => {
         fullWidth
         margin="normal"
       />
-      <TextField
-        label="Type"
-        name="type"
-        value={form.type}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
       <Button type="submit" variant="contained" color="primary" fullWidth>
         Add Transaction
       </Button>
