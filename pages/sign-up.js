@@ -27,7 +27,7 @@ const SignUp = () => {
 
       if (response.ok) {
         console.log('Sign-up successful:', form);
-        router.push('/Login'); // Redirect to login page
+        router.push('/login'); // Redirect to login page
       } else {
         const error = await response.json();
         console.error('Sign-up failed:', error.message || 'Unknown error');

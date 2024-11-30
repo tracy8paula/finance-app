@@ -22,14 +22,12 @@ export const postData = async (endpoint, data) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
+      }
     });
-
-    if (!response.ok) {
-      throw new Error(`Error posting to ${endpoint}: ${response.statusText}`);
-    }
-    return await response.json();
+    
+    const responseBody = await response.json();
+    return responseBody;  
   } catch (error) {
     console.error(`Error posting to ${endpoint}:`, error);
     throw error;
@@ -53,7 +51,7 @@ export const getReports = () => fetchData('reports');
 
 // Users (e.g., Sign-up and Login)
 export const signUpUser = (userData) => postData('sign-up', userData);
-export const loginUser = (credentials) => postData('Login', credentials); 
+export const loginUser = (credentials) => postData('login', credentials); 
 
 export default async function handler(req, res) {
   const { method, url } = req;
@@ -83,7 +81,7 @@ export default async function handler(req, res) {
         res.status(201).json({ message: 'Expense created', data });
       } else if (endpoint === 'sign-up') {
         res.status(201).json({ message: 'User signed up', data });
-      } else if (endpoint === 'Login') {
+      } else if (endpoint === 'login') {
         res.status(200).json({ message: 'User logged in', token: 'dummyToken' });
       } else {
         res.status(404).json({ error: 'Endpoint not found' });

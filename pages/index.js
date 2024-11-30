@@ -32,7 +32,7 @@ export default function LandingPage() {
         <Button
           variant="contained"
           sx={{ backgroundColor: '#001f3f', color: '#f5f5dc', margin: '1rem' }}
-          onClick={() => router.push('/Login')} 
+          onClick={() => router.push('/login')} 
         >
           Login
         </Button>
