@@ -7,18 +7,20 @@ import Incomes from '../pages/incomes';
 import Expenses from '../pages/expenses';
 import Reports from '../pages/reports';
 import AccountDetails from '../pages/AccountDetails';
+import Login from '../pages/Login';
 
 const App = () => {
   return (
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/incomes" element={<Incomes />} />
-        <Route path="/expenses" element={<Expenses />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/account-details" element={<AccountDetails />} />
+        <Route path='/' element={<LandingPage />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/incomes' element={<Incomes />} />
+        <Route path='/expenses' element={<Expenses />} />
+        <Route path='/reports' element={<Reports />} />
+        <Route path='/account-details' element={<AccountDetails />} />
       </Routes>
     </Router>
   );

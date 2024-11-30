@@ -19,24 +19,13 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('/Login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-         
-        body: JSON.stringify(form),
-      });
+      const response = await loginUser(form);  // Correct function call to 'Login' endpoint
 
-      if (response.ok) {
-        const data = await response.json();
-        <loginUser/>
-        console.log('Login successful:', data);
-        router.push(dashboard.js);
-        
+      if (response.message === 'User logged in') {
+        console.log('Login successful:', response);
+        router.push('/dashboard');  // Redirect after successful login
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Login failed');
+        setError('Login failed: ' + response.message);
       }
     } catch (err) {
       console.error('Login error:', err);
@@ -45,7 +34,6 @@ const Login = () => {
   };
 
   return (
-    
     <Container
       sx={{
         backgroundColor: '#001f3f',

@@ -53,7 +53,7 @@ export const getReports = () => fetchData('reports');
 
 // Users (e.g., Sign-up and Login)
 export const signUpUser = (userData) => postData('sign-up', userData);
-export const loginUser = (credentials) => postData('Login', credentials);
+export const loginUser = (credentials) => postData('Login', credentials); 
 
 export default async function handler(req, res) {
   const { method, url } = req;
