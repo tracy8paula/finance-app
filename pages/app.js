@@ -8,6 +8,7 @@ import Expenses from '../pages/expenses';
 import Reports from '../pages/reports';
 import AccountDetails from '../pages/AccountDetails';
 import Login from '../pages/Login';
+import SignUp from './sign-up';
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/Login' element={<Login />} />
+        <Route path='/sign-up' element={<SignUp />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/incomes' element={<Incomes />} />
         <Route path='/expenses' element={<Expenses />} />

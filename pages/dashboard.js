@@ -13,7 +13,7 @@ export default function Dashboard() {
 
   const handleNavigation = (path) => {
     if (path) {
-      router.push(path); // Navigate to the route
+      router.push(path); 
     } else {
       console.error('Invalid path:', path); // Log invalid path for debugging
     }
@@ -33,9 +33,9 @@ export default function Dashboard() {
       </Typography>
       <Grid2 container spacing={4}>
         {sections.map((section) => (
-          <Grid2 item xs={12} sm={6} md={3} key={section.name}>
+          <Grid2 item xs={12} sm={6} md={3} key={sections.name}>
             <Paper
-              onClick={() => handleNavigation(section.path)} // Safely handle navigation
+              onClick={() => handleNavigation(sections.path)} 
               elevation={3}
               sx={{
                 padding: '2rem',
@@ -46,7 +46,7 @@ export default function Dashboard() {
                 '&:hover': { backgroundColor: '#003366' },
               }}
             >
-              <Typography variant="h6">{section.name}</Typography>
+              <Typography variant="h6">{sections.name}</Typography>
             </Paper>
           </Grid2>
         ))}

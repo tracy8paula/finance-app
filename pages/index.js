@@ -28,8 +28,9 @@ export default function LandingPage() {
         >
           Get Started
         </Button>
+
         <Button
-          variant="outlined"
+          variant="contained"
           sx={{ backgroundColor: '#001f3f', color: '#f5f5dc', margin: '1rem' }}
           onClick={() => router.push('/Login')} 
         >

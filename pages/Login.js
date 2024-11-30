@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container } from '@mui/material';
 import { useRouter } from 'next/router';
 import AuthForm from '../src/components/authForm'; 
-import { loginUser } from '@/api/financeApi';
+import { loginUser } from '../src/api/financeApi';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
