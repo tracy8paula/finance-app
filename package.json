@@ -25,7 +25,7 @@
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.0.1",
+    "react-router-dom": "^7.0.2",
     "sequelize": "^6.37.5"
   },
   "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).",

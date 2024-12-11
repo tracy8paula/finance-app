@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Routes, Route } from 'next/router';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  // Ensure correct imports
 import Navbar from '../src/components/navbar';
 import LandingPage from '../pages/index';
 import Dashboard from '../pages/dashboard';
@@ -15,14 +15,14 @@ const App = () => {
     <Router>
       <Navbar />
       <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/incomes' element={<Incomes />} />
-        <Route path='/expenses' element={<Expenses />} />
-        <Route path='/reports' element={<Reports />} />
-        <Route path='/account-details' element={<AccountDetails />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/incomes" element={<Incomes />} />
+        <Route path="/expenses" element={<Expenses />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/account-details" element={<AccountDetails />} />
       </Routes>
     </Router>
   );
