@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Container, Typography, Paper, Box } from '@mui/material';
 import  Navbar from '../src/components/navbar';
 
-const getUserDetails = () => {
-  const user = {
-    username: 'me',
-    email: 'me@example.com',
-    password: 'hashedPassword123', 
-  };
-  return user;
-};
+// const getUserDetails = () => {
+//   const user = {
+//     username: 'me',
+//     email: 'me@example.com',
+//     password: 'hashedPassword123', 
+//   };
+//   return user;
+// };
 
 const AccountDetails = () => {
   const [userDetails, setUserDetails] = useState(null);
