@@ -15,13 +15,11 @@ const AccountDetails = () => {
   const [userDetails, setUserDetails] = useState(null);
 
   useEffect(() => {
-    // Simulate fetching user details from a backend or authentication service
-    const user = getUserDetails();
+    const user = setUserDetails();
 
     if (user) {
       setUserDetails(user);
     } else {
-      // Handle the case where the user is not logged in or failed to fetch data
       alert('You are not logged in!');
     }
   }, []);

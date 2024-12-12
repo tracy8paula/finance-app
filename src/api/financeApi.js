@@ -3,36 +3,48 @@ const BASE_URL = 'http://localhost:5000';
 // Generic function for GET requests
 export const fetchData = async (endpoint) => {
   try {
-    const response = await fetchData(`${BASE_URL}/${endpoint}`);
+    const url = `${BASE_URL}/${endpoint}`;
+    console.log(`Fetching data from: ${BASE_URL}`);
+    const response = await fetch(url);
+
     if (!response.ok) {
-      console.Error(`Error fetching ${endpoint}: ${response.statusText}`)
-      throw new Error(response.statusText);
+      console.error(`Error fetching ${endpoint}: ${response.status} - ${response.statusText}`);
+      throw new Error(`${response.status} - ${response.statusText}`);
     }
+
     return await response.json();
   } catch (error) {
-    console.error (`Error fetching ${endpoint}`, error);
+    console.error(`Error fetching ${endpoint}:`, error);
     throw error;
   }
 };
 
+
+
 // Generic function for POST requests
 export const postData = async (endpoint, data) => {
   try {
-    const response = fetchData(`${BASE_URL}/${endpoint}`, {
+    const response = await fetch(`${BASE_URL}/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-        body: JSON.stringify(data),
+      body: JSON.stringify(data),
     });
-    
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Parse the response body as JSON
     const responseBody = await response.json();
-    return responseBody;  
+    return responseBody;
   } catch (error) {
     console.error(`Error posting to ${endpoint}:`, error);
     throw error;
   }
 };
+
 
 // Transactions
 export const getTransactions = () => fetchData('transactions');
@@ -72,7 +84,6 @@ export default async function handler(req, res) {
       }
     } else if (method === 'POST') {
       const data = req.body;
-
       if (endpoint === 'transactions') {
         res.status(201).json({ message: 'Transaction created', data });
       } else if (endpoint === 'incomes') {
@@ -82,7 +93,7 @@ export default async function handler(req, res) {
       } else if (endpoint === 'sign-up') {
         res.status(201).json({ message: 'User signed up', data });
       } else if (endpoint === 'login') {
-        res.status(200).json({ message: 'User logged in', token: 'dummyToken' });
+        res.status(200).json({ message: 'User logged in'});
       } else {
         res.status(404).json({ error: 'Endpoint not found' });
       }
