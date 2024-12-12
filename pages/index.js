@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { Button, Container, Typography, Box } from '@mui/material';
-import * as MyImage from './login1.jpg';
+import MyImage from './login1.jpg';
 
 export default function LandingPage() {
   const router = useRouter();
@@ -8,10 +8,10 @@ export default function LandingPage() {
   return (
     <Container
       sx={{
-        backgroundImage: MyImage,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
+        backgroundColor: '01365d',
         color: '#f5f5dc',
         minHeight: '100vh',
         padding: '2rem',

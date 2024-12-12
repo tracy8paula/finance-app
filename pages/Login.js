@@ -3,6 +3,7 @@ import { Container, Alert, Box, TextField, Button, Typography } from '@mui/mater
 import { useRouter } from 'next/router';
 import AuthForm from '../src/components/authForm'; 
 import { loginUser } from '../src/api/financeApi';
+import MyImage from './login2.jpg'
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -35,7 +36,7 @@ const Login = () => {
   return (
     <Container
       sx={{
-        backgroundImage: `url('c:\Users\EXTON TECH\Desktop\Probability & stats\Lecture notes')`, // Corrected image reference
+        backgroundImage: `url(${MyImage.src})`, 
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

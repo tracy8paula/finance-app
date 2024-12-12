@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Alert, Box, TextField, Button, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import MyImage from './login1.jpg'
 
 const SignUp = () => {
   const [form, setForm] = useState({ email: '', password: '', confirmPassword: '' });
@@ -47,7 +48,7 @@ const SignUp = () => {
   return (
     <Container
       sx={{
-        backgroundImage: `url('/images/background.jpg')`,
+        backgroundImage: `url(${MyImage.src})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
