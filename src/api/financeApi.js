@@ -19,12 +19,12 @@ export const fetchData = async (endpoint) => {
   }
 };
 
-
-
 // Generic function for POST requests
 export const postData = async (endpoint, data) => {
   try {
-    const response = await fetch(`${BASE_URL}/${endpoint}`, {
+    const url = `${BASE_URL}/${endpoint}`;
+    console.log(`Posting data to: ${BASE_URL}`);
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,6 @@ export const postData = async (endpoint, data) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // Parse the response body as JSON
     const responseBody = await response.json();
     return responseBody;
   } catch (error) {
@@ -44,7 +43,6 @@ export const postData = async (endpoint, data) => {
     throw error;
   }
 };
-
 
 // Transactions
 export const getTransactions = () => fetchData('transactions');
@@ -63,8 +61,9 @@ export const getReports = () => fetchData('reports');
 
 // Users (e.g., Sign-up and Login)
 export const signUpUser = (userData) => postData('sign-up', userData);
-export const loginUser = (credentials) => postData('login', credentials); 
+export const loginUser = (credentials) => postData('login', credentials);
 
+// The server-side API route handler for the backend
 export default async function handler(req, res) {
   const { method, url } = req;
   const endpoint = url.split('/').pop(); // Get the endpoint name
@@ -93,7 +92,13 @@ export default async function handler(req, res) {
       } else if (endpoint === 'sign-up') {
         res.status(201).json({ message: 'User signed up', data });
       } else if (endpoint === 'login') {
-        res.status(200).json({ message: 'User logged in'});
+        // Mock login logic
+        const { username, password } = data;
+        if (username === 'user' && password === 'password') {
+          res.status(200).json({ message: 'Login successful' });
+        } else {
+          res.status(401).json({ message: 'Invalid credentials' });
+        }
       } else {
         res.status(404).json({ error: 'Endpoint not found' });
       }

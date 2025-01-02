@@ -20,10 +20,9 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const response = await loginUser(form); // Call login API
+      const response = await loginUser(form); 
       if (response?.message === 'User logged in') {
         console.log('Login successful:', response);
-        router.push('/dashboard'); // Navigate to dashboard
       } else {
         setError(`Login failed: ${response?.message || 'Unknown error'}`);
       }
@@ -31,6 +30,7 @@ const Login = () => {
       console.error('Login error:', err);
       setError('An unexpected error occurred. Please try again later.');
     }
+    router.push('/dashboard'); 
   };
 
   return (
